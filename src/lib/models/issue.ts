@@ -1,6 +1,5 @@
 import type { Comment, CommentID } from './comment';
 import type { User, UserID } from './user';
-import { PUBLIC_APPLICATION_ACCESS_KEY, PUBLIC_APP_IDENTIFIER } from '$env/static/public';
 import { error } from '@sveltejs/kit';
 
 interface IssueRaw {
@@ -36,9 +35,9 @@ export interface Issue {
 	id: string;
 }
 
-export async function getIssue(id: string) {
+export async function getIssue(id: string, app_identifier: string, app_secret_key: string) {
 	const url = new URL(
-		'https://api.appsheet.com/api/v2/apps/' + PUBLIC_APP_IDENTIFIER + '/tables/Risks/Action'
+		'https://api.appsheet.com/api/v2/apps/' + app_identifier + '/tables/Risks/Action'
 	);
 
 	const response = await fetch(url, {
@@ -46,7 +45,7 @@ export async function getIssue(id: string) {
 		body: `{"Action":"Find","Properties":{},"Rows":[{"ID":"${id}"}]}`,
 		headers: {
 			'Content-Type': 'application/json',
-			applicationAccessKey: PUBLIC_APPLICATION_ACCESS_KEY
+			applicationAccessKey: app_secret_key
 		}
 	});
 	const rawIssues: IssueRaw[] = await response.json();
@@ -59,9 +58,9 @@ export async function getIssue(id: string) {
 	});
 }
 
-export async function getIssues() {
+export async function getIssues(app_identifier: string, app_secret_key: string) {
 	const url = new URL(
-		'https://api.appsheet.com/api/v2/apps/' + PUBLIC_APP_IDENTIFIER + '/tables/Risks/Action'
+		'https://api.appsheet.com/api/v2/apps/' + app_identifier + '/tables/Risks/Action'
 	);
 
 	const response = await fetch(url, {
@@ -69,19 +68,45 @@ export async function getIssues() {
 		body: `{"Action":"Find","Properties":{}}`,
 		headers: {
 			'Content-Type': 'application/json',
-			applicationAccessKey: PUBLIC_APPLICATION_ACCESS_KEY
+			applicationAccessKey: app_secret_key
 		}
 	});
 	const rawIssues: IssueRaw[] = await response.json();
 	return rawIssues.map(rawIssueToIssue);
 }
 
-export function getResolvedIssues() {
-	return;
+export async function getResolvedIssues(app_identifier: string, app_secret_key: string) {
+	const url = new URL(
+		'https://api.appsheet.com/api/v2/apps/' + app_identifier + '/tables/Risks/Action'
+	);
+
+	const response = await fetch(url, {
+		method: 'POST',
+		body: `{"Action":"Find","Properties":{"Selector": "Filter(Risks, ISNOTBLANK([Resolved By]))"}}`,
+		headers: {
+			'Content-Type': 'application/json',
+			applicationAccessKey: app_secret_key
+		}
+	});
+	const rawIssues: IssueRaw[] = await response.json();
+	return rawIssues.map(rawIssueToIssue);
 }
 
-export function getUnresolvedIssues() {
-	return;
+export async function getUnresolvedIssues(app_identifier: string, app_secret_key: string) {
+	const url = new URL(
+		'https://api.appsheet.com/api/v2/apps/' + app_identifier + '/tables/Risks/Action'
+	);
+
+	const response = await fetch(url, {
+		method: 'POST',
+		body: `{"Action":"Find","Properties":{"Selector": "Filter(Risks, ISBLANK([Resolved By]))"}}`,
+		headers: {
+			'Content-Type': 'application/json',
+			applicationAccessKey: app_secret_key
+		}
+	});
+	const rawIssues: IssueRaw[] = await response.json();
+	return rawIssues.map(rawIssueToIssue);
 }
 
 function rawIssueToIssue(rawIssue: IssueRaw) {

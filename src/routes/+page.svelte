@@ -38,6 +38,7 @@
 		margin-left: -30px;
 		width: 25px;
 	}
+
 	.search-form {
 		height: 50px;
 		margin-bottom: 50px;
