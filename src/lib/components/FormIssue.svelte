@@ -2,17 +2,17 @@
 	export var method = 'edit';
 	export var id = '13';
 
-  let action = (method === 'edit') ? "/api/issues/"+ id+ "/" + method : "/api/issues/" + method
+	let action = method === 'edit' ? '/api/issues/' + id + '/' + method : '/api/issues/' + method;
 
-  // function onSubmit(submit : SubmitEvent) : void {
-  //   submit.
-  // }
-  // on:submit={onSubmit}
+	// function onSubmit(submit : SubmitEvent) : void {
+	//   submit.
+	// }
+	// on:submit={onSubmit}
 </script>
 
 <div class="info-block">
-	<form method="POST" action="{action}">
-    <dl>
+	<form method="POST" {action}>
+		<dl>
 			<dt>Name</dt>
 			<dd><input name="name" /></dd>
 		</dl>

@@ -4,6 +4,6 @@ import { env } from '$env/dynamic/private';
 
 export const POST: RequestHandler = async ({ params }: RequestEvent) => {
 	// app_identifier: string, app_secret_key: string, risk:string, author:string, image:string
-	await newIssue(env.APP_IDENTIFIER, env.APPLICATION_ACCESS_KEY, "name", "author", "image")
+	await newIssue(env.APP_IDENTIFIER, env.APPLICATION_ACCESS_KEY, 'name', 'author', 'image');
 	return new Response(null, { status: 204 });
 };

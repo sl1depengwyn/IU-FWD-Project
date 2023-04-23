@@ -35,7 +35,11 @@ export interface Issue {
 	id: string;
 }
 
-export async function getIssue(id: string, app_identifier: string, app_secret_key: string) {
+export async function getIssue(
+	id: string,
+	app_identifier: string,
+	app_secret_key: string
+): Promise<Issue> {
 	const url = new URL(
 		'https://api.appsheet.com/api/v2/apps/' + app_identifier + '/tables/Risks/Action'
 	);
@@ -58,7 +62,7 @@ export async function getIssue(id: string, app_identifier: string, app_secret_ke
 	});
 }
 
-export async function getIssues(app_identifier: string, app_secret_key: string) {
+export async function getIssues(app_identifier: string, app_secret_key: string): Promise<Issue[]> {
 	const url = new URL(
 		'https://api.appsheet.com/api/v2/apps/' + app_identifier + '/tables/Risks/Action'
 	);
@@ -75,7 +79,10 @@ export async function getIssues(app_identifier: string, app_secret_key: string) 
 	return rawIssues.map(rawIssueToIssue);
 }
 
-export async function getResolvedIssues(app_identifier: string, app_secret_key: string) {
+export async function getResolvedIssues(
+	app_identifier: string,
+	app_secret_key: string
+): Promise<Issue[]> {
 	const url = new URL(
 		'https://api.appsheet.com/api/v2/apps/' + app_identifier + '/tables/Risks/Action'
 	);
@@ -92,7 +99,10 @@ export async function getResolvedIssues(app_identifier: string, app_secret_key: 
 	return rawIssues.map(rawIssueToIssue);
 }
 
-export async function getUnresolvedIssues(app_identifier: string, app_secret_key: string) {
+export async function getUnresolvedIssues(
+	app_identifier: string,
+	app_secret_key: string
+): Promise<Issue[]> {
 	const url = new URL(
 		'https://api.appsheet.com/api/v2/apps/' + app_identifier + '/tables/Risks/Action'
 	);
@@ -109,13 +119,19 @@ export async function getUnresolvedIssues(app_identifier: string, app_secret_key
 	return rawIssues.map(rawIssueToIssue);
 }
 
-export async function newIssue(app_identifier: string, app_secret_key: string, risk:string, author:string, image:string) {
+export async function newIssue(
+	app_identifier: string,
+	app_secret_key: string,
+	risk: string,
+	author: string,
+	image: string
+): Promise<void> {
 	const url = new URL(
 		'https://api.appsheet.com/api/v2/apps/' + app_identifier + '/tables/Risks/Action'
 	);
 
-	const id = Date.now().toString(16)
-	const createdAt = new Date()
+	const id = Date.now().toString(16);
+	const createdAt = new Date();
 
 	const response = await fetch(url, {
 		method: 'POST',
@@ -125,12 +141,6 @@ export async function newIssue(app_identifier: string, app_secret_key: string, r
         	"Risk Image": "${image}",
         	"Risk Documented By": "${author}",
         	"Risk Date/Time": "${new Date()}",
-        	"Resolution Description": "",
-        	"Resolved By": "",
-        	"Date/Time": "",
-        	"Comments": "",
-        	"Details": "Documented by ${author} at ${createdAt}",
-        	"Resolution Details": "Resolved by  at "
 		}]}`,
 		headers: {
 			'Content-Type': 'application/json',
@@ -138,10 +148,23 @@ export async function newIssue(app_identifier: string, app_secret_key: string, r
 		}
 	});
 
-	console.log(response)
+	console.log(response);
 }
 
-export async function editIssue(app_identifier: string, app_secret_key: string, id:string, risk:string, image:string) {
+//"Details": "Documented by ${author} at ${createdAt}",
+// "Resolution Description": "",
+//         	"Resolved By": "",
+//        	"Date/Time": "",
+// "Comments": "",
+// "Resolution Details": "Resolved by  at "
+
+export async function editIssue(
+	app_identifier: string,
+	app_secret_key: string,
+	id: string,
+	risk: string,
+	image: string
+): Promise<void> {
 	const url = new URL(
 		'https://api.appsheet.com/api/v2/apps/' + app_identifier + '/tables/Risks/Action'
 	);
@@ -160,12 +183,18 @@ export async function editIssue(app_identifier: string, app_secret_key: string, 
 	});
 }
 
-export async function resolveIssue(app_identifier: string, app_secret_key: string, id:string, resolved_by:string, resolution_description:string) {
+export async function resolveIssue(
+	app_identifier: string,
+	app_secret_key: string,
+	id: string,
+	resolved_by: string,
+	resolution_description: string
+) {
 	const url = new URL(
 		'https://api.appsheet.com/api/v2/apps/' + app_identifier + '/tables/Risks/Action'
 	);
 
-	const resolvedAt = new Date()
+	const resolvedAt = new Date();
 
 	await fetch(url, {
 		method: 'POST',
@@ -182,7 +211,7 @@ export async function resolveIssue(app_identifier: string, app_secret_key: strin
 	});
 }
 
-function rawIssueToIssue(rawIssue: IssueRaw) : Issue {
+function rawIssueToIssue(rawIssue: IssueRaw): Issue {
 	return {
 		author: rawIssue['Risk Documented By'],
 		authorAvatar: rawIssue['Risk Headshot'],
@@ -197,6 +226,6 @@ function rawIssueToIssue(rawIssue: IssueRaw) : Issue {
 	} as Issue;
 }
 
-export function getIssueAuthor(issue: Issue) {
+export function getIssueAuthor(issue: Issue): undefined {
 	return;
 }

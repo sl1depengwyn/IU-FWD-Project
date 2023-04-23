@@ -4,7 +4,7 @@
 
 <h1>New issue</h1>
 
-<FormIssue method='new' />
+<FormIssue method="new" />
 
 <style>
 </style>
