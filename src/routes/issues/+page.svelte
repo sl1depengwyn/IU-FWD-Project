@@ -3,21 +3,21 @@
 	import type { Issue } from '$lib/models/issue';
 	import { writable, derived, type Readable } from 'svelte/store';
 
-	let kind = 'all';
+	let type = 'all';
 	let issuesPromise: Promise<Issue[]>;
 	async function getIssues(route: string) {
-		const response = await fetch('issues/' + route);
+		const response = await fetch('/api/issues/?type=' + route);
 		return response.json();
 	}
 
-	function handleClick(newKind: string) {
-		kind = newKind;
+	function handleClick(newType: string) {
+		type = newType;
 	}
 </script>
 
 <h1>Safety issues</h1>
 
-{#await getIssues(kind)}
+{#await getIssues(type)}
 	<p>...waiting</p>
 {:then issues}
 	<div class="list">

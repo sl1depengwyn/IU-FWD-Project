@@ -1,7 +1,6 @@
 import { getIssue } from '$lib/models/issue';
-import type { RequestEvent, RequestHandler } from './$types';
-
 import { env } from '$env/dynamic/private';
+import type { RequestEvent, RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ params }: RequestEvent) => {
 	return new Response(

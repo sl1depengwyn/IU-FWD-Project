@@ -109,7 +109,80 @@ export async function getUnresolvedIssues(app_identifier: string, app_secret_key
 	return rawIssues.map(rawIssueToIssue);
 }
 
-function rawIssueToIssue(rawIssue: IssueRaw) {
+export async function newIssue(app_identifier: string, app_secret_key: string, risk:string, author:string, image:string) {
+	const url = new URL(
+		'https://api.appsheet.com/api/v2/apps/' + app_identifier + '/tables/Risks/Action'
+	);
+
+	const id = Date.now().toString(16)
+	const createdAt = new Date()
+
+	const response = await fetch(url, {
+		method: 'POST',
+		body: `{"Action":"Add","Properties":{},"Rows":[{
+			"ID": "${id}",
+        	"Risk": "${risk}",
+        	"Risk Image": "${image}",
+        	"Risk Documented By": "${author}",
+        	"Risk Date/Time": "${new Date()}",
+        	"Resolution Description": "",
+        	"Resolved By": "",
+        	"Date/Time": "",
+        	"Comments": "",
+        	"Details": "Documented by ${author} at ${createdAt}",
+        	"Resolution Details": "Resolved by  at "
+		}]}`,
+		headers: {
+			'Content-Type': 'application/json',
+			applicationAccessKey: app_secret_key
+		}
+	});
+
+	console.log(response)
+}
+
+export async function editIssue(app_identifier: string, app_secret_key: string, id:string, risk:string, image:string) {
+	const url = new URL(
+		'https://api.appsheet.com/api/v2/apps/' + app_identifier + '/tables/Risks/Action'
+	);
+
+	await fetch(url, {
+		method: 'POST',
+		body: `{"Action":"Edit","Properties":{},"Rows":[{
+			"ID": "${id}",
+			"Risk": "${risk}",
+        	"Risk Image": "${image}",
+		}]`,
+		headers: {
+			'Content-Type': 'application/json',
+			applicationAccessKey: app_secret_key
+		}
+	});
+}
+
+export async function resolveIssue(app_identifier: string, app_secret_key: string, id:string, resolved_by:string, resolution_description:string) {
+	const url = new URL(
+		'https://api.appsheet.com/api/v2/apps/' + app_identifier + '/tables/Risks/Action'
+	);
+
+	const resolvedAt = new Date()
+
+	await fetch(url, {
+		method: 'POST',
+		body: `{"Action":"Edit","Properties":{},"Rows":[{
+			"ID": "${id}",
+        	"Resolved By": "${resolved_by}",
+			"Date/Time": "${resolvedAt}",
+        	"Resolution Description": "${resolution_description}"
+		}]`,
+		headers: {
+			'Content-Type': 'application/json',
+			applicationAccessKey: app_secret_key
+		}
+	});
+}
+
+function rawIssueToIssue(rawIssue: IssueRaw) : Issue {
 	return {
 		author: rawIssue['Risk Documented By'],
 		authorAvatar: rawIssue['Risk Headshot'],

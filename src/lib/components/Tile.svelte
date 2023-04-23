@@ -4,7 +4,7 @@
 	export let issue: Issue;
 </script>
 
-<a href={`/issue/${issue.id}`} class="tile">
+<a href={`/issues/${issue.id}`} class="tile">
 	<IssueAuthor avatarUrl={issue.authorAvatar} name={issue.author} />
 	<img class="picture" src={issue.image} alt="Issue" />
 	<p>{issue.name}</p>
