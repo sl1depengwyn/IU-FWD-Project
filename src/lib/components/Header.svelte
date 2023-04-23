@@ -64,12 +64,6 @@
 		color: #213547;
 	}
 
-	svg {
-		width: 2em;
-		height: 3em;
-		display: block;
-	}
-
 	ul {
 		position: relative;
 		padding: 0;

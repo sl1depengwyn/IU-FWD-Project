@@ -19,28 +19,28 @@
 			<dd>{issue.author}</dd>
 		</dl>
 		<dl>
-			<p>image</p>
-			<img src={issue.image.toString()} alt="Report" />
+			<dt>image</dt>
+			<dd><img src={issue.image.toString()} alt="Report" /></dd>
 		</dl>
 		<dl>
-			<p>createdAt</p>
-			<p>{issue.createdAt}</p>
+			<dt>createdAt</dt>
+			<dd>{issue.createdAt}</dd>
 		</dl>
 		<dl>
-			<p>comments</p>
-			<p>{issue.comments}</p>
+			<dt>comments</dt>
+			<dd>{issue.comments}</dd>
 		</dl>
 		<dl>
-			<p>resolvedBy</p>
-			<p>{issue.resolvedBy}</p>
+			<dt>resolvedBy</dt>
+			<dd>{issue.resolvedBy}</dd>
 		</dl>
 		<dl>
-			<p>resolutionDetails</p>
-			<p>{issue.resolutionDetails}</p>
+			<dt>resolutionDetails</dt>
+			<dd>{issue.resolutionDetails}</dd>
 		</dl>
 		<dl>
-			<p>details</p>
-			<p>{issue.details}</p>
+			<dt>details</dt>
+			<dd>{issue.details}</dd>
 		</dl>
 	</div>
 {:catch error}
@@ -56,9 +56,19 @@
 		-webkit-box-shadow: 0 0 30px 0 rgba(202, 199, 226, 0.5);
 		box-shadow: 0 0 30px 0 rgba(202, 199, 226, 0.5);
 		margin-bottom: 50px;
+		text-align: left;
 	}
 
 	dl {
 		display: flex;
+	}
+
+	dt {
+		flex: 0 0 16.66666667%;
+		max-width: 16.66666667%;
+	}
+	dd {
+		flex: 0 0 83.33333333%;
+		max-width: 83.33333333%;
 	}
 </style>
