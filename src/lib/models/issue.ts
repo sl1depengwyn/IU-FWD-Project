@@ -222,7 +222,7 @@ function rawIssueToIssue(rawIssue: IssueRaw): Issue {
 		resolutionDetails: rawIssue['Resolution Details'],
 		details: rawIssue['Details'],
 		name: rawIssue.Risk,
-		id: rawIssue.ID
+					id: rawIssue.ID
 	} as Issue;
 }
 
