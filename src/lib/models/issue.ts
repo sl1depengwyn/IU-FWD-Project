@@ -131,7 +131,7 @@ export async function newIssue(
 	);
 
 	const id = Date.now().toString(16);
-	const createdAt = new Date();
+	// const createdAt = new Date();
 
 	const response = await fetch(url, {
 		method: 'POST',
@@ -222,10 +222,6 @@ function rawIssueToIssue(rawIssue: IssueRaw): Issue {
 		resolutionDetails: rawIssue['Resolution Details'],
 		details: rawIssue['Details'],
 		name: rawIssue.Risk,
-					id: rawIssue.ID
+		id: rawIssue.ID
 	} as Issue;
-}
-
-export function getIssueAuthor(issue: Issue): undefined {
-	return;
 }

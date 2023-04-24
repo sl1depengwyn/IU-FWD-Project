@@ -1,10 +1,8 @@
 <script lang="ts">
 	import Tile from '$lib/components/Tile.svelte';
-	import type { Issue } from '$lib/models/issue';
-	import { writable, derived, type Readable } from 'svelte/store';
 
 	let type = 'all';
-	let issuesPromise: Promise<Issue[]>;
+
 	async function getIssues(route: string) {
 		const response = await fetch('/api/issues/?type=' + route);
 		return response.json();

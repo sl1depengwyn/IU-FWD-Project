@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import type { Issue } from '$lib/models/issue';
-	import type { HttpError } from '@sveltejs/kit';
 
 	async function getIssue(): Promise<Issue | null> {
 		const response = await fetch('/api/issues/' + $page.params.slug);

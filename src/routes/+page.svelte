@@ -3,8 +3,8 @@
 	import searchIcon from '$lib/images/search.svg';
 
 	function onClickSearch(event: KeyboardEvent): void {
-		let keyCode = event.code || event.key;
-		if (keyCode == 'Enter') {
+		let keyCode: string = event.code || event.key;
+		if (keyCode === 'Enter') {
 			event.preventDefault();
 			let input = document.getElementById('issue-by-id') as HTMLInputElement;
 			if (input && input.value) window.location.href = '/issues/' + input.value;

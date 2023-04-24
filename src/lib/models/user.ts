@@ -1,16 +1,6 @@
 import type { Comment, CommentID } from './comment';
 import type { Issue, IssueID } from './issue';
 
-interface UserRaw {
-	_RowNumber: string;
-	Email: string;
-	Name: string;
-	Headshot: string;
-	Comments: string;
-	'Documented Risks': string;
-	'Related Risks By Resolved By': string;
-}
-
 type Email = string;
 
 export type UserID = Email;
