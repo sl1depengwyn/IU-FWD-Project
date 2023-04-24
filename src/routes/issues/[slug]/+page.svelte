@@ -13,6 +13,8 @@
 
 <h1>Issue #{$page.params.slug}</h1>
 
+<a class="button" href="/issues/{$page.params.slug}/edit">Edit</a>
+
 {#await getIssue()}
 	<p>...waiting</p>
 {:then issue}

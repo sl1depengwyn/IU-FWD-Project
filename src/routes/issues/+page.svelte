@@ -15,6 +15,12 @@
 
 <h1>Safety issues</h1>
 
+<div class="nav-box">
+	<button on:click={() => handleClick('resolved')}>resolved</button>
+
+	<button on:click={() => handleClick('unresolved')}>unresolved</button>
+</div>
+
 {#await getIssues(type)}
 	<p>...waiting</p>
 {:then issues}
@@ -27,14 +33,19 @@
 	<p style="color: red">{error.message}</p>
 {/await}
 
-<button on:click={() => handleClick('resolved')}>resolved</button>
-
-<button on:click={() => handleClick('unresolved')}>unresolved</button>
+<a class="button" href="/issues/new">Add issue</a>
 
 <style>
+	button {
+		color: white;
+	}
 	.list {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
+	}
+
+	.nav-box {
+		display: inline;
 	}
 </style>
