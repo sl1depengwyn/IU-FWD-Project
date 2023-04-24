@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import type { Issue } from '$lib/models/issue';
+	import IssueSeo from '$lib/components/SEO/IssueSeo.svelte';
 
 	async function getIssue(): Promise<Issue | null> {
 		const response = await fetch('/api/issues/' + $page.params.slug);
@@ -21,6 +22,7 @@
 	{#if issue == null}
 		<p class="error">Not found!</p>
 	{:else}
+		<IssueSeo metaDescription={issue.details} title={issue.details} />
 		<div class="info-block">
 			<dl>
 				<dt>author</dt>

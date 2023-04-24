@@ -32,5 +32,9 @@
 		"vite": "^4.2.0",
 		"vitest": "^0.25.3"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"felte": "^1.2.7",
+		"yup": "^1.1.1"
+	}
 }

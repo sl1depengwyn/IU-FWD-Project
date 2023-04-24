@@ -125,22 +125,21 @@ export async function newIssue(
 	risk: string,
 	author: string,
 	image: string
-): Promise<void> {
+): Promise<Response> {
 	const url = new URL(
 		'https://api.appsheet.com/api/v2/apps/' + app_identifier + '/tables/Risks/Action'
 	);
 
-	const id = Date.now().toString(16);
-	// const createdAt = new Date();
+	console.log(risk);
+	console.log(author);
+	console.log(image);
 
 	const response = await fetch(url, {
 		method: 'POST',
 		body: `{"Action":"Add","Properties":{},"Rows":[{
-			"ID": "${id}",
         	"Risk": "${risk}",
         	"Risk Image": "${image}",
-        	"Risk Documented By": "${author}",
-        	"Risk Date/Time": "${new Date()}",
+        	"Risk Documented By": "${author}"
 		}]}`,
 		headers: {
 			'Content-Type': 'application/json',
@@ -149,44 +148,42 @@ export async function newIssue(
 	});
 
 	console.log(response);
-}
 
-//"Details": "Documented by ${author} at ${createdAt}",
-// "Resolution Description": "",
-//         	"Resolved By": "",
-//        	"Date/Time": "",
-// "Comments": "",
-// "Resolution Details": "Resolved by  at "
+	return response;
+}
 
 export async function editIssue(
 	app_identifier: string,
 	app_secret_key: string,
 	id: string,
-	risk: string,
-	image: string
-): Promise<void> {
+	risk: string | null,
+	image: string | null
+): Promise<Response> {
 	const url = new URL(
 		'https://api.appsheet.com/api/v2/apps/' + app_identifier + '/tables/Risks/Action'
 	);
 
-	await fetch(url, {
+	const init = {
 		method: 'POST',
 		body: `{"Action":"Edit","Properties":{},"Rows":[{
-			"ID": "${id}",
-			"Risk": "${risk}",
-        	"Risk Image": "${image}",
-		}]`,
+					"ID": "${id}",
+					${risk == '' ? '' : `"Risk": "${risk}",`}
+					${image == 'data:' ? '' : `"Image": "${image}",`}
+		}]}`,
 		headers: {
 			'Content-Type': 'application/json',
 			applicationAccessKey: app_secret_key
 		}
-	});
+	};
+	console.log(init);
+	return await fetch(url, init);
 }
 
 export async function resolveIssue(
 	app_identifier: string,
 	app_secret_key: string,
 	id: string,
+	author: string,
 	resolved_by: string,
 	resolution_description: string
 ) {
@@ -214,7 +211,12 @@ export async function resolveIssue(
 function rawIssueToIssue(rawIssue: IssueRaw): Issue {
 	return {
 		author: rawIssue['Risk Documented By'],
-		authorAvatar: rawIssue['Risk Headshot'],
+		authorAvatar:
+			'https://randomuser.me/api/portraits/' +
+			(parseInt(rawIssue._RowNumber) % 2 ? 'women' : 'men') +
+			'/' +
+			rawIssue._RowNumber +
+			'.jpg',
 		image: rawIssue['Risk Image'],
 		createdAt: new Date(rawIssue['Date/Time']),
 		comments: rawIssue['Comments'].split(' , '),

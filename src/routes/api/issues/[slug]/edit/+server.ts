@@ -1,10 +1,21 @@
-import type { RequestHandler } from './$types';
-import { newIssue } from '$lib/models/issue';
+import type { RequestEvent, RequestHandler } from './$types';
+import { editIssue } from '$lib/models/issue';
 import { env } from '$env/dynamic/private';
 
-export const POST: RequestHandler = async () => {
-	// { params }: RequestEvent
-	// app_identifier: string, app_secret_key: string, risk:string, author:string, image:string
-	await newIssue(env.APP_IDENTIFIER, env.APPLICATION_ACCESS_KEY, 'name', 'author', 'image');
+export const POST: RequestHandler = async ({ request, params }: RequestEvent) => {
+	const form = await request.formData();
+	const risk = form.get('name')?.toString() ?? '';
+	const image = form.get('image')?.toString() ?? '';
+	const response = await editIssue(
+		env.APP_IDENTIFIER,
+		env.APPLICATION_ACCESS_KEY,
+		params.slug,
+		risk,
+		image
+	);
+
+	if (response.status != 200) {
+		return response;
+	}
 	return new Response(null, { status: 204 });
 };
