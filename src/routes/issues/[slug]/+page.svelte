@@ -32,18 +32,12 @@
 				<dt>image</dt>
 				<dd><img src={issue.image.toString()} alt="Report" /></dd>
 			</dl>
-			<dl>
-				<dt>createdAt</dt>
-				<dd>{issue.createdAt}</dd>
-			</dl>
-			<dl>
-				<dt>comments</dt>
-				<dd>{issue.comments}</dd>
-			</dl>
-			<dl>
-				<dt>resolvedBy</dt>
-				<dd>{issue.resolvedBy}</dd>
-			</dl>
+			{#if issue.resolvedBy}
+				<dl>
+					<dt>resolvedBy</dt>
+					<dd>{issue.resolvedBy}</dd>
+				</dl>
+			{/if}
 			<dl>
 				<dt>resolutionDetails</dt>
 				<dd>{issue.resolutionDetails}</dd>
@@ -79,6 +73,7 @@
 		flex: 0 0 16.66666667%;
 		max-width: 16.66666667%;
 	}
+
 	dd {
 		flex: 0 0 83.33333333%;
 		max-width: 83.33333333%;

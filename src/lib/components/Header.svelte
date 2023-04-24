@@ -13,9 +13,6 @@
 				<a href="{base}/issues">Issues</a>
 			</li>
 			<li>
-				<a href="{base}/team">Team</a>
-			</li>
-			<li>
 				<a href="{base}/about">About</a>
 			</li>
 		</ul>

@@ -23,7 +23,6 @@
 <h2>Via Your Safety you can:</h2>
 <div class="links">
 	<a class="button" href="{base}/issues">Browse all issues</a>
-	<a class="button" href="{base}/team">Our team</a>
 	<a class="button" href="{base}/about">Info</a>
 </div>
 
